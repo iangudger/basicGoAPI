@@ -36,6 +36,14 @@ heroku addons:add mandrill
 # Setup default database
 ./load_schema.sh
 
+# Go variables
+if [ -z "$GOPATH" ]
+	then
+		export GOPATH=$HOME/go
+		export GOBIN=$GOPATH/bin
+		export PATH=$PATH:$GOBIN
+fi
+
 # Deploy app
 godep save
 git add -A .

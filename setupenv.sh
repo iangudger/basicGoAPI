@@ -21,17 +21,17 @@ sudo apt-get install -y postgresql-client
 # Go variables
 if [ -z "$GOPATH" ]
 	then
-	mkdir -p ~/go/src
-	echo  '' >> ~/.bashrc
-	echo  '# For programming language Go' >> ~/.bashrc
-	echo  'export GOPATH=$HOME/go' >> ~/.bashrc
-	echo  'export GOBIN=$GOPATH/bin' >> ~/.bashrc
-	echo  'export PATH=$PATH:$GOBIN' >> ~/.bashrc	
-	echo  '' >> ~/.bashrc
-	
-	export GOPATH=$HOME/go
-	export GOBIN=$GOPATH/bin
-	export PATH=$PATH:$GOBIN
+		mkdir -p ~/go/src
+		echo  '' >> ~/.bashrc
+		echo  '# For programming language Go' >> ~/.bashrc
+		echo  'export GOPATH=$HOME/go' >> ~/.bashrc
+		echo  'export GOBIN=$GOPATH/bin' >> ~/.bashrc
+		echo  'export PATH=$PATH:$GOBIN' >> ~/.bashrc	
+		echo  '' >> ~/.bashrc
+		
+		export GOPATH=$HOME/go
+		export GOBIN=$GOPATH/bin
+		export PATH=$PATH:$GOBIN
 fi
 
 # Required libraries
