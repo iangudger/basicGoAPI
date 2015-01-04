@@ -9,6 +9,22 @@ sudo apt-get update
 sudo apt-get install -y git
 git clone https://github.com/iangudger/basicGoAPI.git .
 
+# Setup Git
+GITNAME=$(git config --get user.name)
+if [ -z "$GITNAME" ]
+	then
+		echo -n "Git name: "
+		read GITNAME
+		git config --global user.name "$GITNAME"
+fi
+GITEMAIL=$(git config --get user.email)
+if [ -z "$GITEMAIL" ]
+	then
+		echo -n "Git email: "
+		read GITEMAIL
+		git config --global user.email "$GITEMAIL"
+fi
+
 # Install dependencies
 ./setupenv.sh
 
@@ -21,5 +37,7 @@ heroku addons:add mandrill
 ./load_schema.sh
 
 # Deploy app
+godep save
+git add -A .
+git commit -m "Added dependencies."
 git push -u heroku master
-./deploy.sh
