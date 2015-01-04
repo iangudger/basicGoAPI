@@ -76,7 +76,7 @@ func (db DB) GetUserID(email string, password string) (userid int, err error) {
 func (db DB) GetSessionUserID(sessionid string) (userid int, err error) {
 	log.Printf("Looking up userid for sessionid: %s\n", sessionid)
 
-	err = db.conn.QueryRow("SELECT userid FROM sessions WHERE sessionid = $1", sessionid).Scan(&userid)
+	err = db.conn.QueryRow("SELECT userid FROM sessions WHERE sessions.id = $1", sessionid).Scan(&userid)
 	return
 }
 
@@ -84,7 +84,7 @@ func (db DB) NewSession(userid int) (sessionid string, err error) {
 	// Create a new unique sessionid
 	for numRows := 0; ; {
 		sessionid = newSessionID()
-		err = db.conn.QueryRow("SELECT count(*) FROM sessions WHERE sessionid = $1", sessionid).Scan(&numRows)
+		err = db.conn.QueryRow("SELECT count(*) FROM sessions WHERE id = $1", sessionid).Scan(&numRows)
 		if err != nil {
 			return
 		}
@@ -95,7 +95,7 @@ func (db DB) NewSession(userid int) (sessionid string, err error) {
 
 	// Insert new sessionid
 	_, err = db.conn.Query(
-		"INSERT INTO sessions (userid, sessionid) VALUES ($1, $2)",
+		"INSERT INTO sessions (userid, sessions.id) VALUES ($1, $2)",
 		userid,
 		sessionid,
 	)
@@ -141,7 +141,7 @@ func hashPassword(password string) (string, error) {
 
 func (db DB) GetEmailFromSessionID(sessionid string) (email string, err error) {
 	err = db.conn.QueryRow(
-		"SELECT email FROM sessions, users WHERE sessionid = $1 AND sessions.userid = users.id",
+		"SELECT email FROM sessions, users WHERE sessions.id = $1 AND sessions.userid = users.id",
 		sessionid,
 	).Scan(&email)
 	return
@@ -149,7 +149,7 @@ func (db DB) GetEmailFromSessionID(sessionid string) (email string, err error) {
 
 func (db DB) GetEmail(sessionid string) (email string, err error) {
 	err = db.conn.QueryRow(
-		"SELECT email FROM sessions, users WHERE sessionid = $1 AND sessions.userid = users.id",
+		"SELECT email FROM sessions, users WHERE sessions.id = $1 AND sessions.userid = users.id",
 		sessionid,
 	).Scan(&email)
 	return
@@ -217,7 +217,7 @@ func (db DB) AddListing(userid int, title, description, price string, lon, lat f
 
 func (db DB) Logout(sessionid string) error {
 	return db.conn.QueryRow(
-		"DELETE FROM sessions WHERE sessionid = $1 RETURNING sessionid;",
+		"DELETE FROM sessions WHERE sessions.id = $1 RETURNING sessions.id;",
 		sessionid,
 	).Scan(&sessionid)
 }
@@ -225,7 +225,7 @@ func (db DB) Logout(sessionid string) error {
 func (db DB) UpdateSession(sessionid string) error {
 	log.Println("Updating last date for sessionid", sessionid)
 	return db.conn.QueryRow(
-		"UPDATE sessions SET last = now() WHERE sessionid = $1 RETURNING sessionid;",
+		"UPDATE sessions SET last = now() WHERE sessions.id = $1 RETURNING sessions.id;",
 		sessionid,
 	).Scan(&sessionid)
 }
