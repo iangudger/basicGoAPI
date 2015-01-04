@@ -95,7 +95,7 @@ func (db DB) NewSession(userid int) (sessionid string, err error) {
 
 	// Insert new sessionid
 	_, err = db.conn.Query(
-		"INSERT INTO sessions (userid, sessions.id) VALUES ($1, $2)",
+		"INSERT INTO sessions (userid, id) VALUES ($1, $2)",
 		userid,
 		sessionid,
 	)
