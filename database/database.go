@@ -84,7 +84,7 @@ func (db DB) NewSession(userid int) (sessionid string, err error) {
 	// Create a new unique sessionid
 	for numRows := 0; ; {
 		sessionid = newSessionID()
-		err = db.conn.QueryRow("SELECT count(*) FROM sessions WHERE id = $1", sessionid).Scan(&numRows)
+		err = db.conn.QueryRow("SELECT count(*) FROM sessions WHERE sessions.id = $1", sessionid).Scan(&numRows)
 		if err != nil {
 			return
 		}
