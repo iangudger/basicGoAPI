@@ -8,6 +8,6 @@ CREATE TABLE users (
 CREATE TABLE sessions (
    id               TEXT                     PRIMARY KEY,
    userid           INT            NOT NULL  REFERENCES users(id),
-   start            TIMESTAMP      NOT NULL,
-   last             TIMESTAMP      NOT NULL
+   start            TIMESTAMP      NOT NULL  DEFAULT now(),
+   last             TIMESTAMP      NOT NULL  DEFAULT now()
 );
