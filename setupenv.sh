@@ -7,7 +7,7 @@ wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
 # Golang
 sudo add-apt-repository -y ppa:eugenesan/ppa
 sudo apt-get update
-GOEXE = $(which go)
+GOEXE=$(which go)
 if [ -z "$GOEXE" ]
 	then
 		sudo apt-get install -y golang
