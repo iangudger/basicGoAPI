@@ -94,7 +94,7 @@ func (db DB) NewSession(userid int) (sessionid string, err error) {
 	}
 
 	// Insert new sessionid
-	_, err = db.conn.Query(
+	_, err = db.conn.Exec(
 		"INSERT INTO sessions (userid, id) VALUES ($1, $2)",
 		userid,
 		sessionid,
@@ -126,7 +126,7 @@ func (db DB) RegisterUser(email string) (password string, err error) {
 		email,
 		hashed,
 	)
-	_, err = db.conn.Query(
+	_, err = db.conn.Exec(
 		"INSERT INTO users (email, password) VALUES ($1, $2)",
 		email,
 		hashed,
@@ -193,7 +193,7 @@ func (db DB) ChangePassword(email, newPassword string) (err error) {
 }
 
 func (db DB) UpdateLocation(userid int, lon, lat float64) error {
-	_, err := db.conn.Query(
+	_, err := db.conn.Exec(
 		"INSERT INTO locations (userid, location) VALUES ($1, point($2, $3));",
 		userid,
 		lon,
@@ -203,7 +203,7 @@ func (db DB) UpdateLocation(userid int, lon, lat float64) error {
 }
 
 func (db DB) AddListing(userid int, title, description, price string, lon, lat float64) error {
-	_, err := db.conn.Query(
+	_, err := db.conn.Exec(
 		"INSERT INTO listings (userid, title, description, price, location) VALUES ($1, $2, $3, $4, point($5, $6));",
 		userid,
 		title,
