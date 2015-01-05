@@ -11,19 +11,22 @@ git clone https://github.com/iangudger/basicGoAPI.git .
 
 # Setup Git
 GITNAME=$(git config --get user.name)
-if [ -z "$GITNAME" ]
-	then
+while [ -z "$GITNAME" ]
+	do
 		echo -n "Git name: "
 		read GITNAME
-		git config --global user.name "$GITNAME"
-fi
+		sleep 1;
+done
+git config --global user.name "$GITNAME"
+
 GITEMAIL=$(git config --get user.email)
-if [ -z "$GITEMAIL" ]
-	then
+while [ -z "$GITEMAIL" ]
+	do
 		echo -n "Git email: "
 		read GITEMAIL
-		git config --global user.email "$GITEMAIL"
-fi
+		sleep 1;
+done
+git config --global user.email "$GITEMAIL"
 
 # Install dependencies
 ./setupenv.sh
